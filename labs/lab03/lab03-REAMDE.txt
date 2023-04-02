@@ -1,0 +1,11 @@
+B581 / Fall 2022
+Lab 03
+Aditi Shivaji Pednekar
+apednek@iu.edu
+
+I'm working on the Unity Version 2020.3.16f1 LTS which is not configured to automatically install updates to newer versions.
+I completed the first task of adding the plane gameobject with a cube and then assigning the colors through materials to them. Then worked on adding the ObjectMovement.cs script to that gameobject to give it an automatic translation in different directions. Also added the rotation to it so that the cube gameobject could rotate while translating.
+Then I added another gameobject which had a rigidbody attached to it and the same ObjectMovement.cs attached. Then I played around with the rigidbody parameters and also changing the translation direction of the cube to get to know the rigidbody working.
+I then worked on completing the two tasks from "To Explore On Your Own" section. I created two scripts PlayerController.cs and CameraController.cs to move the player and camera gameobject. I attached the PlayerController.cs script to the cube gameobject with rigidbody on it and attached the CameraController.cs to camera gameobject. I tried to adjust the movement speed while in-play to get to know the cube gameobject behavior and also adjusted the "Drag" parameter of its rigidbody to 1 to get a smooth playable speed.
+
+I did not encounter any issues while completing these tasks.

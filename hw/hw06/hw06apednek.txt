@@ -1,0 +1,92 @@
+B581 / Fall 2022
+Homework 06
+Aditi Shivaji Pednekar
+apednek@iu.edu
+
+B) Computing Normals to Polyhedron Faces, for use in Illumination Equations.
+
+1. Write down the vector components of this cross-product (explicitly in terms of x1, y1, etc.)
+
+-> [(P2 - P1) ⨯ (P3 - P2)] = [ z3(y2-y1) + z2(y1-y3) + z1(y3-y2),
+                               x3(z2-z1) + x2(z1-z3) + x1(z3-z2),
+                               y3(x2-x1) + y2(x1-x3) + y1(x3-x2) ]
+
+2. There are six identical forms of this particular normal direction, written in terms of the cross products of (P2-P1), (P3-P2), and (P1-P3).
+Three of these six identical forms are basically different in their apparent from, and three other forms are derived from one of the first three, with order and sign changes.
+Write down these six equivalent forms.
+
+-> [(P2 - P1) ⨯ (P3 - P2)] = [ z3(y2-y1) + z2(y1-y3) + z1(y3-y2),
+                               x3(z2-z1) + x2(z1-z3) + x1(z3-z2),
+                               y3(x2-x1) + y2(x1-x3) + y1(x3-x2) ]
+
+   [(P3 - P2) ⨯ (P1 - P3)] = [ z3(y2-y1) + z2(y1-y3) + z1(y3-y2),
+                               x3(z2-z1) + x2(z1-z3) + x1(z3-z2),
+                               y3(x2-x1) + y2(x1-x3) + y1(x3-x2) ]
+
+   [(P2 - P1) ⨯ (P1 - P3)] = [ y2(z1-z3) + y1(z3-z2) + y3(z2-z1),
+                               z2(x1-x3) + z1(x3-x2) + z3(x2-x1),
+                               x2(y1-y3) + x1(y3-y2) + x3(y2-y1) ]
+
+   [(P3 - P2) x (P2 - P1)] = [ y3(z2-z1) + y2(z1-z3) + y1(z3-z2),
+                               z3(x2-x1) + z2(x1-x3) + z1(x3-x2),
+                               x3(y2-y1) + x2(y1-y3) + x1(y3-y2) ]
+
+   [(P1 - P3) x (P3 - P2)] = [ y3(z2-z1) + y2(z1-z3) + y1(z3-z2),
+                               z3(x2-x1) + z2(x1-x3) + z1(x3-x2),
+                               x3(y2-y1) + x2(y1-y3) + x1(y3-y2) ]
+
+   [(P2 - P1) x (P3 - P2)] = [ z3(y2-y1) + z2(y1-y3) + z1(y3-y2),
+                               x3(z2-z1) + x2(z1-z3) + x1(z3-z2),
+                               y3(x2-x1) + y2(x1-x3) + y1(x3-x2) ]
+
+
+
+C) Ambient Illumination and Diffuse Illumination
+
+1. According to lamberts law the intensity of the light getting reflected from the illuminated surface would be equal from any position for the moving observer.
+Hence the observer perceives same amount of light irrespective of its position.
+
+2.
+a) What physical process does the ambient color for an object's material specification approximate?
+
+-> Ambient color is the color an object reflects when it is not exposed to direct light. Hence the object's material needs to specify the reflection.
+
+b) What is the mathematical expression for the geometric factor for diffuse illumination, as dependence on the vectors given above?
+
+-> Id = Kd * Lp * (N . L)
+   where L  = light vector,
+         N  = surface normal,
+         Kd = reflection vector,
+         Lp = light point vector
+
+
+D) Flat Shading and Gouraud Shading
+
+1. Which one is required for the "flat shading model" to get the proper effect?
+
+-> One normal per face. By this we can compute the illumination at that point and shade the entire face.
+
+2. If you were to implement a hardware-accelerated Gouraud shading interpolation, which feature of contemporary graphics processors would you use, and how would you use it?
+
+-> I would use the `Vertex Shader` to calculate the position of the vertices and the `Fragment Shader` to get the color for those vertices.
+
+3. List all geometrical primitives necessary as input data for a programmable pipeline to compute diffuse lighting, explain each one of these primitive's roles in the Gouraud shading process, and describe the output of such shading process.
+
+-> The coordinates for the vertices of the surface to calculate the normals at each vertex.
+
+
+
+E) Phong Illumination
+
+1. What is the geometric factor for Phong specular lighting with shininess f ?
+
+-> Is = ks * (R · Pc)^f * Pl
+   where ks = specular light coefficient,
+         R  = reflection vector,
+         Pc = camera vector,
+         Pl = light vector,
+         f = shininess
+
+2. Under what conditions should the Phong specular lighting component be set to zero?
+
+-> Phong specular lighting component should be set to zero when the surface is less shiny(example: wooden surface) hence allowing maximum diffusion. If in such case the Phong specular lighting component is set to a higher value there are chaances that the reflected area from the surface shows a visible cut.

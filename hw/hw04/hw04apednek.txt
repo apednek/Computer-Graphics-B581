@@ -1,0 +1,92 @@
+B581 / Fall 2022
+Homework 04
+Aditi Shivaji Pednekar
+apednek
+
+A) 3D Geometry
+
+a) Consider a Rotation that is the result of multiplying three Rotations: Rx * Ry * Rz .
+The fixed point of those Rotations is the origin.
+The angles of rotation, for those three individual Rotations, are Θx, Θy, and Θz  respectively.
+Provide the result as a single 4x4 matrix, explicitly writing down the expression for each element in the resulting matrix.
+(i.e. the mathematical expression in each one of the 16 elements in the 4x4 matrix needs to be written down explicitly)
+
+Rx = |1     0               0           0|
+     |0     cos(θx)      -sin(θx)       0|
+     |0     sin(θx)       cos(θx)       0|
+     |0     0               0           1|
+
+
+Ry = |cos(θy)     0       sin(θy)       0|
+     |0           1          0          0|
+     |-sin(θy)    0       cos(θy)       0|
+     |0           0          0          1|
+
+
+Rz = |cos(θz)     -sin(θz)      0       0|
+     |sin(θz)      cos(θz)      0       0|
+     |0                0        1       0|
+     |0                0        0       1|
+
+Result as a single 4x4 matrix:
+
+Rx*Ry*Rz = |cos(θy)cos(θz)                              -sin(θz)cos(θy)                             sin(θy)                 0|
+           |sin(θx)sin(θy)cos(θz)+sin(θz)cos(θx)        -sin(θx)sin(θy)sin(θz)+cos(θx)cos(θz)       -sin(θx)cos(θy)         0|
+           |sin(θx)sin(θz)−sin(θy)cos(θx)cos(θz)        sin(θx)cos(θz)+sin(θy)sin(θz)cos(θx)        cos(θx)cos(θy)          0|
+           |0                                           0                                           0                       1|
+
+
+b) By definition, an instance transformation is the product of a Translation, a Rotation, and a Scaling, multiplied together in that order: T*R*S. When working with 3D homogeneous coordinates, T, R and S are 4x4 matrices.
+For example, if a set of vertices is transformed by such an instance transformation, Scaling is the transformation that gets applied to those vertices first, and Translation gets applied last.
+Can we obtain the same result by combining those same three types of transformations, in a different order?
+If yes, why?
+If not, why not?
+
+Consider translation by (2,2,2), scaling by (2,2,2) and rotation on the x-y plane of (30) for a point originally at (3,3,3).
+
+Performing scaling first then rotation then translation:
+T(2,2,2) * R(30) * S(2,2,2) * P(3,3,3) = |4.19 |
+                                         |10.19|
+                                         |8    |
+                                         |1    |
+
+Performing transalation first then rotation then scaling:
+S(2,2,2) * R(30) * T(2,2,2) * P(3,3,3) = |3.66 |
+                                         |13.66|
+                                         |10   |
+                                         |1    |
+
+These results state that the same results cannot be applied if the transformations are applied in a different order.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+B) 3D Transformations
+a) Write down the 4x4 right-handed rotation matrix that leaves the y-axis fixed.
+
+Ry = |cos(θy)     0       sin(θy)       0|
+     |0           1          0          0|
+     |-sin(θy)    0       cos(θy)       0|
+     |0           0          0          1|
+
+b) Write down the 4x4 right-handed rotation matrix that leaves the z-axis fixed.
+
+Rz = |cos(θz)     -sin(θz)      0       0|
+     |sin(θz)      cos(θz)      0       0|
+     |0                0        1       0|
+     |0                0        0       1|
+
+c) Write down the 4x4 ModelView matrix performing a right-handed rotation that leaves fixed in space every point on the line that passes from the point (1,1,0) to (1,1,1).
+
+To have a point rotating about an arbitrary axis we need to have the unit vector in the direction of the rotation axis and the angle of rotation.
+
+The given line segment is P1(1,1,0) and P2(1,1,1) which would be our arbitrary axis.
+This line segment is along the z axis therefore the unit vector is along the z axis.
+Consider θ as the angle of rotation.
+
+Therefore the ModelView matrix results to:
+Rz = |cos(θz)     -sin(θz)      0       0|
+     |sin(θz)      cos(θz)      0       0|
+     |0                0        1       0|
+     |0                0        0       1|
+
+Where a positive θ corresponds to the counter-clockwise rotation.

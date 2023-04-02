@@ -1,0 +1,168 @@
+B581 / Fall 2022
+Homework 02
+Aditi Shivaji Pednekar
+apednek
+
+B) Vector Spaces:
+1.) It can be shown that three vertices determine a triangle, if they do not belong to the same flat/straight line.
+Write pseudocode for a simple function that returns True if three given vertices are "collinear" and False otherwise.
+
+If three vertices are collinear then they should have equal slope since they fall on the same line. The following code is written on this basis.
+
+public boolean isCollinear(int x1, int y1, int x2, int y2, int x3, int y3) {
+    float slope1 = calculateSlope(x1, y1, x2, y2);
+    float slope2 = calculateSlope(x2, y2, x3, y3);
+    float slope3 = calculateSlope(x1, y1, x3, y3);
+
+    if((slope1 == slope2) && (slope2 == slope3))
+        return true;
+    else
+        return false;
+}
+
+public float calculateSlope(int a, int b, int c, int d) {
+    return (b - a) / (d - c);
+}
+
+2.) A Computer Graphics API could be based on an Object-Oriented System providing scalars, vectors, and points as basic types. However, graphics APIs do not provide such graphics primitives.
+Provide your own explanation as to why do you think that standard Graphics APIs do not provide such graphics primitives?
+
+Computer Graphics has been a sophisticated topic and with the development and invention of new technology graphics has developed into a very versatile subject. From the display resolution developing from 144p to 2160p technology has made a huge leap. When it comes to Computer Graphics API or constructing a Computer Graphics API it is important to know which point is being passed into the API. So one point position on the client side may differ from the point position at the server side. Hence it is difficult to maintain a consistent system which could give us the exact API response. Hence graphics API do not work with graphics primitives.
+
+
+
+
+C) Line Equations:
+1.) Write down the traditional equation of a flat/straight line y=f(x) with explicit parameters for the slope and intercept.
+
+The traditional equation of a flat/straight line is y = mx + b.
+Where:
+y is the y-coordinate
+x is the x-coordinate
+m is the slope
+b is the intercept
+
+2.) Now modify this equation so that it is guaranteed to pass through the point (x0, y0);
+that is, the parameters (x0, y0) should now appear in your equation y=f(x).
+If you use any other parameters, state their meaning.
+
+When:
+y -> y0
+x -> x0
+
+Then:
+y = mx + b becomes y0 = mx0 + b.
+
+
+
+D) 2D affine transformations:
+1.) For the following two transformations, write explicitly the two complete 3x3 matrices acting on the homogeneous column vector (x,y,w):
+
+a.) 2D rotation by -30 degrees (right-handed coordinate system, positive=counterclockwise)
+
+The rotation as a matrix operation is defined as
+|x'|        |cosΘ       -sinΘ       0|    |x|
+|y'|    =   |sinΘ        cosΘ       0| .  |y|
+|1 |        |0             0        1|    |1|  
+
+when Θ=-30° for the homogeneous column vector (x,y,w),
+|x'|        |cos(-30°)       -sin(-30°)       0|    |x|
+|y'|    =   |sin(-30°)        cos(-30°)       0| .  |y|
+|w'|        |0                      0         1|    |w|
+
+|x'|        |(3x - y) / 2 |
+|y'|    =   |(x + y√3) / 2|
+|w'|        |            1|
+
+b.) Translation by (2,1), then scaling by (1,2), followed by Rotation by 45 degrees counterclockwise.
+
+The translation as a matrix operation is defined as
+|x'|        |1      0     Tx|    |x|
+|y'|    =   |0      1     Ty| .  |y|
+|1 |        |0      0      1|    |1|  
+
+when Tx = 2 and Ty = 1 for the homogeneous column vector (x,y,w),
+|x'|        |1      0     2|    |x|
+|y'|    =   |0      1     1| .  |y|
+|w'|        |0      0     1|    |w|
+
+|x'|        |x + 2w|
+|y'|    =   |y + w |
+|w'|        |     w|
+
+The scaling as a matrix operation is defined as
+|x'|        |Sx      0      0|    |x|
+|y'|    =   |0      Sy      0| .  |y|
+|1 |        |0       0      1|    |w|
+
+when Sx = 1 and Sy = 2 for the homogeneous column vector (x,y,w),
+|x"|        |1      0      0|    |x'|
+|y"|    =   |0      2      0| .  |y'|
+|w"|        |0      0      1|    |w'|
+
+|x"|        |1      0      0|    |x + 2w|
+|y"|    =   |0      2      0| .  |y + w |
+|w"|        |0      0      1|    |     w|
+
+|x"|        |x + 2w |
+|y"|    =   |2y + 2w|
+|w"|        |w      |
+
+The rotation as a matrix operation is defined as
+|x'|        |cosΘ       -sinΘ       0|    |x|
+|y'|    =   |sinΘ        cosΘ       0| .  |y|
+|1 |        |0             0        1|    |1|  
+
+when Θ=45° for the homogeneous column vector (x,y,w),
+|x'"|        |cos(45°)       -sin(45°)       0|    |x"|
+|y'"|    =   |sin(45°)        cos(45°)       0| .  |y"|
+|w'"|        |0                    0         1|    |w"|
+
+|x'"|        |cos(45°)       -sin(45°)       0|    |x + 2w |
+|y'"|    =   |sin(45°)        cos(45°)       0| .  |2y + 2w|
+|w'"|        |0                    0         1|    |w      |
+
+|x'"|        |x - 2y     |
+|y'"|    =   |x + 2y + 2w|
+|w'"|        |w          |
+
+
+
+2.) Fixed point rule in 2D: using simple symbols like T(x,y), write down the matrix notation for a sequence of transformations that performs the following operations with respect to the fixed point (x0,y0):
+
+-> scale by 0.25 along the x-axis and by 0.3 along the y-axis
+
+For a given fixed point (x0, y0), the matrix representation comes to:
+|x0|
+|y0|
+
+The scaling as a matrix operation is defined as
+|x'|        |Sx      0|    |x|
+|y'|    =   |0      Sy| .  |y|
+
+Hence for point (x0, y0):
+|x'|        |Sx      0|    |x0|
+|y'|    =   |0      Sy| .  |y0|
+
+For Sx = 0.25 and Sy = 0.3
+|x'|        |0.25     0|    |x0|
+|y'|    =   |0      0.3| .  |y0|
+
+|x'|    =   |0.25x0|
+|y'|        |0.3y0 |
+
+-> then rotate by an angle of 60 degrees clockwise.
+
+The rotation as a matrix operation is defined as
+|x'|        |cosΘ      -sinΘ|    |x|
+|y'|    =   |sinΘ       cosΘ| .  |y|
+
+Hence when Θ=60°,
+|x"|        |cos(60°)      -sin(60°)|    |0.25x0|
+|y"|    =   |sin(60°)       cos(60°)| .  |0.3y0 |
+
+|x"|        |cos(60°)      -sin(60°)|    |0.25x0|
+|y"|    =   |sin(60°)       cos(60°)| .  |0.3y0 |
+
+|x"|    =   |(0.25x0 - 0.3√3y0) / 2|
+|y"|        |(0.25√3x0 + 0.3y0) / 2|

@@ -1,0 +1,329 @@
+B581 / Fall 2022
+Homework 03
+Aditi Shivaji Pednekar
+apednek
+
+B)
+2)
+b) We could connect the last point of the first segment to the first point of the second segment. No derivatives are matched automatically.
+The naming would be P0, P1, P2 as the first segment and P2, P3, P4 as the second segment.
+
+c) b) We could connect the last point of the first segment to the first point of the second segment. The derivative at this point would be matched automatically.
+The naming would be P0, P1, P2 as the first segment and P2, P3, P4 as the second segment.
+
+3)
+A = (1-t)P0 + tP1
+B = (1-t)P1 + tP2
+
+P = (1-t)A + tB
+For the second order spline:
+After derivation -> P = t^2(P0-2P1+P2) + 2t(P1-P0) + P0
+
+C) Clipping
+1) Line Clipping - Intersection Calculations (Cyrus-Beck Algorithm)
+
+Let point on line be Pa(0, 0) and Pb(250, 150)
+
+Pb - Pa = (250 - 0, 150-0) = (250, 150)
+
+nleft = (-(10-130), (50-50)) / 120 = (1, 0)
+
+nright = (-(10-130), (200-200)) / 120 = (1, 0)
+
+ntop = (-(130-130), 200-50) / 150 = (0, 1)
+
+nbottom = (-(10-10), (200-50)) / 150 = (0, 1)
+
+Pleft - Pa = (50-0, 130-0) = (50, 130)
+Pright - Pa = (200-0, 130-0) = (200, 130)
+Ptop - Pa = (50-0, 130-0) = (50, 130)
+Pbottom - Pa = (50-0, 10-0) = (50, 10)
+
+tleft = nleft . (Pleft - Pa) / nleft . (Pb-Pa)
+      = (1, 0) . (50, 130) / (1,0) . (250, 150)
+      = 50 / 250
+      = 0.2
+
+tright = nright . (Pright - Pa) / nright . (Pb-Pa)
+       = (1, 0) . (200, 130) / (1, 0) . (250, 150)
+       = 200 / 250
+       = 0.8
+
+ttop = ntop . (Ptop - Pa) / ntop . (Pb-Pa)
+     = (0, 1) . (50, 130) / (0, 1) . (250, 150)
+     = 130 / 150
+     = 0.87
+
+tbottom = nbottom . (Pbottom - Pa) / nbottom . (Pb-Pa)
+        = (0, 1) . (50, 10) / (0, 1) . (250, 150)
+        = 10 / 150
+        = 0.07
+
+P(tleft) = Pa + tleft(Pb-Pa)
+         = (0, 0) + 0.2(250, 150)
+         = (50, 30)
+
+P(tright) = Pa + tright(Pb-Pa)
+          = (0, 0) + 0.8(250, 150)
+          = (200, 120)
+
+P(top) = Pa + ttop(Pb-Pa)
+       = (0, 0) + 0.87(250, 150)
+       = (217.5, 130.5)
+
+P(bottom) = Pa + tbottom(Pb-Pa)
+          = (0, 0) + 0.07(250, 150)
+          = (17.5, 10.5)
+
+Therefore the line is clipped at (50, 30) and (200, 120)
+
+C)
+2) Line Clipping - Endpoint Coding (Cohen-Sutherland Algorithm)
+
+a)
+Given: min(50, 10) and max(200, 130)
+
+Region code for A(79, 0) -> FFFT
+Region code for B(240, 200) -> FTTF
+Region code for C(40, 40) -> TFFF
+
+b)
+
+pair A : 1001, 0101
+This line is invalid. Because vertex 1001 is situated at Left and Bottom and vertex 0101 is situated at Top and Bottom which does not specify where the exact points lie at.
+
+pair B : 1001, 0010
+This line requires more processing. Because it is difficult to interpret if the line would intersect the window at any point or pass from the outside.
+
+pair C: 0000, 0000
+The line is completely visible and inside the window.
+
+pair D: 0110, 1010
+This line is invalid. Because vertex 1010 does not specify the exact location.
+
+pair E: 0001, 0000
+This line is partially visible and intersects solely at the bottom of the window.
+
+3) Polygon Clipping
+
+For line segment Pa(100, 100) and Pb(250, 200)
+
+Pb - Pa = (250 - 100, 200-100) = (150, 100)
+
+nleft = (-(10-130), (50-50)) / 120 = (1, 0)
+
+nright = (-(10-130), (200-200)) / 120 = (1, 0)
+
+ntop = (-(130-130), 200-50) / 150 = (0, 1)
+
+nbottom = (-(10-10), (200-50)) / 150 = (0, 1)
+
+Pleft - Pa = (50-100, 130-100) = (-50, 30)
+Pright - Pa = (200-100, 130-100) = (100, 30)
+Ptop - Pa = (50-100, 130-100) = (-50, 30)
+Pbottom - Pa = (50-100, 10-100) = (-50, -90)
+
+tleft = nleft . (Pleft - Pa) / nleft . (Pb-Pa)
+      = (1, 0) . (-50, 30) / (1,0) . (150, 100)
+      = -50 / 150
+      = -0.3
+
+tright = nright . (Pright - Pa) / nright . (Pb-Pa)
+       = (1, 0) . (100, 30) / (1, 0) . (150, 100)
+       = 100 / 150
+       = 0.7
+
+ttop = ntop . (Ptop - Pa) / ntop . (Pb-Pa)
+     = (0, 1) . (-50, 30) / (0, 1) . (150, 100)
+     = 30 / 100
+     = 0.3
+
+tbottom = nbottom . (Pbottom - Pa) / nbottom . (Pb-Pa)
+        = (0, 1) . (-50, -90) / (0, 1) . (150, 100)
+        = -90 / 100
+        = -0.9
+
+P(tleft) = Pa + tleft(Pb-Pa)
+         = (100, 100) + (-0.3)(150, 100)
+         = (55, 70)
+
+P(tright) = Pa + tright(Pb-Pa)
+          = (100, 100) + 0.7(150, 100)
+          = (205, 170)
+
+P(top) = Pa + ttop(Pb-Pa)
+       = (100, 100) + 0.3(150, 100)
+       = (145, 130)
+
+P(bottom) = Pa + tbottom(Pb-Pa)
+          = (100, 100) + (-0.9)(150, 100)
+          = (-35, 10)
+
+Therefore the line is clipped at (145, 130)
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+For line segment Pa(100, 100) and Pb(100, 50)
+
+Pb - Pa = (100 - 100, 50-100) = (0, -50)
+
+nleft = (-(10-130), (50-50)) / 120 = (1, 0)
+
+nright = (-(10-130), (200-200)) / 120 = (1, 0)
+
+ntop = (-(130-130), 200-50) / 150 = (0, 1)
+
+nbottom = (-(10-10), (200-50)) / 150 = (0, 1)
+
+Pleft - Pa = (50-100, 130-100) = (-50, 30)
+Pright - Pa = (200-100, 130-100) = (100, 30)
+Ptop - Pa = (50-100, 130-100) = (-50, 30)
+Pbottom - Pa = (50-100, 10-100) = (-50, -90)
+
+tleft = nleft . (Pleft - Pa) / nleft . (Pb-Pa)
+      = (1, 0) . (-50, 30) / (1,0) . (0, -50)
+      = -50 / 0
+      = ND
+
+tright = nright . (Pright - Pa) / nright . (Pb-Pa)
+       = (1, 0) . (100, 30) / (1, 0) . (0, -50)
+       = 100 / 0
+       = ND
+
+ttop = ntop . (Ptop - Pa) / ntop . (Pb-Pa)
+     = (0, 1) . (-50, 30) / (0, 1) . (0, -50)
+     = 30 / -50
+     = -0.6
+
+tbottom = nbottom . (Pbottom - Pa) / nbottom . (Pb-Pa)
+        = (0, 1) . (-50, -90) / (0, 1) . (0, -50)
+        = -90 / -50
+        = 1.8
+
+P(tleft) = Pa + tleft(Pb-Pa)
+         = (100, 100) + (-0.3)(150, 100)
+         = ND
+
+P(tright) = Pa + tright(Pb-Pa)
+          = (100, 100) + 0.7(150, 100)
+          = ND
+
+P(top) = Pa + ttop(Pb-Pa)
+       = (100, 100) + (-0.6)(150, 100)
+       = (10, 40)
+
+P(bottom) = Pa + tbottom(Pb-Pa)
+          = (100, 100) + (1.8)(150, 100)
+          = (370, 280)
+
+Therefore the line is inside the window since no intersecting point.
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+For line segment Pa(100, 50) and Pb(250, 50)
+
+Pb - Pa = (250 - 100, 50-50) = (150, 0)
+
+nleft = (-(10-130), (50-50)) / 120 = (1, 0)
+
+nright = (-(10-130), (200-200)) / 120 = (1, 0)
+
+ntop = (-(130-130), 200-50) / 150 = (0, 1)
+
+nbottom = (-(10-10), (200-50)) / 150 = (0, 1)
+
+Pleft - Pa = (50-100, 130-50) = (-50, 80)
+Pright - Pa = (200-100, 130-50) = (100, 80)
+Ptop - Pa = (50-100, 130-50) = (-50, 80)
+Pbottom - Pa = (50-100, 10-50) = (-50, -40)
+
+tleft = nleft . (Pleft - Pa) / nleft . (Pb-Pa)
+      = (1, 0) . (-50, 80) / (1,0) . (150, 0)
+      = -50 / 150
+      = -0.3
+
+tright = nright . (Pright - Pa) / nright . (Pb-Pa)
+       = (1, 0) . (100, 80) / (1, 0) . (150, 0)
+       = 100 / 150
+       = 0.67
+
+ttop = ntop . (Ptop - Pa) / ntop . (Pb-Pa)
+     = (0, 1) . (-50, 80) / (0, 1) . (150, 0)
+     = 30 / 0
+     = ND
+
+tbottom = nbottom . (Pbottom - Pa) / nbottom . (Pb-Pa)
+        = (0, 1) . (-50, -40) / (0, 1) . (150, 0)
+        = -90 / 0
+        = ND
+
+P(tleft) = Pa + tleft(Pb-Pa)
+         = (100, 50) + (-0.3)(150, 0)
+         = (55, 50)
+
+P(tright) = Pa + tright(Pb-Pa)
+          = (100, 50) + 0.67(150, 0)
+          = (200, 50)
+
+P(top) = Pa + ttop(Pb-Pa)
+       = ND
+
+P(bottom) = Pa + tbottom(Pb-Pa)
+          = ND
+
+Therefore the line is clipped at (200, 50)
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+For line segment Pa(250, 200) and Pb(250, 50)
+
+Pb - Pa = (250 - 250, 50-200) = (0, -150)
+
+nleft = (-(10-130), (50-50)) / 120 = (1, 0)
+
+nright = (-(10-130), (200-200)) / 120 = (1, 0)
+
+ntop = (-(130-130), 200-50) / 150 = (0, 1)
+
+nbottom = (-(10-10), (200-50)) / 150 = (0, 1)
+
+Pleft - Pa = (50-250, 130-200) = (-200, -70)
+Pright - Pa = (200-250, 130-200) = (-50, -70)
+Ptop - Pa = (50-250, 130-200) = (-200, -70)
+Pbottom - Pa = (50-250, 10-200) = (-200, -190)
+
+tleft = nleft . (Pleft - Pa) / nleft . (Pb-Pa)
+      = (1, 0) . (-200, -70) / (1,0) . (0, -150)
+      = -50 / 0
+      = ND
+
+tright = nright . (Pright - Pa) / nright . (Pb-Pa)
+       = (1, 0) . (-50, -70) / (1, 0) . (0, -150)
+       = 100 / 0
+       = ND
+
+ttop = ntop . (Ptop - Pa) / ntop . (Pb-Pa)
+     = (0, 1) . (-200, -70) / (0, 1) . (0, -150)
+     = -70 / -150
+     = 0.47
+
+tbottom = nbottom . (Pbottom - Pa) / nbottom . (Pb-Pa)
+        = (0, 1) . (-200, -190) / (0, 1) . (0, -150)
+        = -190 / -150
+        = 1.23
+
+P(tleft) = Pa + tleft(Pb-Pa)
+         = ND
+
+P(tright) = Pa + tright(Pb-Pa)
+          = ND
+
+P(top) = Pa + ttop(Pb-Pa)
+       = (250, 200) + 0.47(0, -150)
+       = (250, -50.5)
+
+P(bottom) = Pa + tbottom(Pb-Pa)
+          = (250, 200) + 1.23(0, -150)
+          = (250, 15.5)
+
+Therefore the line is outside the window since no intersecting point.
